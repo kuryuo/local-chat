@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Пример подключения стилей</title>
+  <link rel="stylesheet" href="./login.css">
+</head>
+<body>
+  <main class="container">
+    <section class="chatCard">
+      <header class="header">
+        <div class="logoContainer">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="chatIcon"
+          >
+            <path
+              d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
+              fill="white"
+            />
+          </svg>
+        </div>
+        <h1 class="title">Добро пожаловать в чат!</h1>
+      </header>
+
+      <form>
+        <p class="description">
+          Введите ваше имя и название комнаты, чтобы начать общение
+        </p>
+
+        <div class="inputGroup">
+          <label class="inputLabel">Имя пользователя</label>
+          <div class="inputWrapper">
+            <input
+              type="text"
+              placeholder="Например: Александр"
+              class="input"
+            />
+          </div>
+        </div>
+
+        <div class="inputGroup">
+          <label class="inputLabel">Название комнаты</label>
+          <div class="inputWrapper">
+            <input
+              type="text"
+              placeholder="Например: Общий чат"
+              class="input"
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="submitButton">
+          Войти в чат
+        </button>
+      </form>
+
+      <footer class="footer">
+        <p class="footerText">
+          Присоединяйтесь к существующей комнате или создайте новую
+        </p>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,57 @@
+.container {
+    background-color: var(--background-color);
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    padding: 20px;
+    display: flex;
+  }
+  
+  .chatCard {
+    background-color: var(--background-color);
+    border-radius: 12px;
+    width: 480px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+  }
+  
+  @media (width <= 991px) {
+    .chatCard {
+      width: 90%;
+      max-width: 480px;
+    }
+  }
+  
+  @media (width <= 640px) {
+    .chatCard {
+      width: 100%;
+      padding: 20px;
+    }
+  }
+  
+  .header {
+    align-items: center;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .submitButton {
+    color: var(--card-background);
+    cursor: pointer;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    height: 52px;
+    margin-bottom: 26px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: var(--hover);
+  }
+  
+  .footer {
+    text-align: center;
+  }
+  
