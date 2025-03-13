@@ -1,0 +1,29 @@
+.roomHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.roomName{
+    font-size: 22px;
+}
+
+.roomLeft {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.roomInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.leaveButton {
+    color: red;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}

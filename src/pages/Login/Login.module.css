@@ -36,7 +36,7 @@
   }
   
   .submitButton {
-    color: var(--card-background);
+    color: var(--background-color);
     cursor: pointer;
     background-color: var(--primary-color);
     border: none;
