@@ -1,22 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Login from "./pages/Login/Login";
-import Message from "./components/Message/Message";
-import UserInput from "./components/UserInput/UserInput";
-import { ROUTES } from "./constans/const";
-import RoomHeader from "./components/RoomHeader/RoomHeader.tsx";
+import ChatRoom from "./pages/ChatRoom/ChatRoom";
+import {ROUTES} from "./constans/const";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path = '/message' element={<Message />} />
         <Route path={ROUTES.LOGIN} element={<Login />} />
-          <Route path= '/input' element={<UserInput/>} />
-          <Route path= '/header' element={<RoomHeader/>} />
+        <Route path={ROUTES.CHAT} element={<ChatRoom />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
- 

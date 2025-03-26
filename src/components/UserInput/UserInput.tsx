@@ -1,6 +1,5 @@
-import React from 'react';
-import styles from './UserInput.module.css';
-
+import React from "react";
+import styles from "./UserInput.module.css";
 
 const UserInput: React.FC = () => {
   return (
