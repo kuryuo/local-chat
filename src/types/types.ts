@@ -8,3 +8,8 @@ export interface MessageProps {
     text: string;
     mediaUrl?: string;
 }
+
+export interface RoomHeaderProps {
+    chatname: string;
+    onLeaveRoom: () => void;
+}

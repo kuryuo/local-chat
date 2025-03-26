@@ -1,21 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect } from 'react';
 import RoomHeader from '../../components/RoomHeader/RoomHeader';
 import Message from '../../components/Message/Message';
 import UserInput from '../../components/UserInput/UserInput';
-import {useLocalStorage} from '../../hooks/useLocalStorage';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { ROUTES } from '../../constans/const.ts';
 import styles from './ChatRoom.module.css';
 
 const ChatRoom: React.FC = () => {
     const [username] = useLocalStorage<string>('username', '');
     const [chatname] = useLocalStorage<string>('chatname', '');
-    const [messages, setMessages] = useState<any[]>([]);
+    const [messages, setMessages] = useLocalStorage<any[]>(`messages_${chatname}`, []);
 
     useEffect(() => {
-        const savedMessages = localStorage.getItem('messages');
-        if (savedMessages) {
-            setMessages(JSON.parse(savedMessages));
+        if (chatname) {
+            const savedMessages = localStorage.getItem(`messages_${chatname}`);
+            if (savedMessages) {
+                setMessages(JSON.parse(savedMessages));
+            }
         }
-    }, []);
+    }, [chatname]);
 
     const handleSendMessage = (message: string) => {
         const newMessage = {
@@ -27,21 +30,17 @@ const ChatRoom: React.FC = () => {
 
         const updatedMessages = [...messages, newMessage];
         setMessages(updatedMessages);
-
-        localStorage.setItem('messages', JSON.stringify(updatedMessages));
     };
 
     const handleLeaveRoom = () => {
         localStorage.removeItem('username');
         localStorage.removeItem('chatname');
-        localStorage.removeItem('messages');
-        window.location.href = '/';
+        window.location.href = ROUTES.LOGIN;
     };
 
     return (
         <div className={styles.chatRoom}>
             <RoomHeader chatname={chatname} onLeaveRoom={handleLeaveRoom} />
-
             <div className={styles.messages}>
                 {messages.map((msg, index) => (
                     <Message
@@ -53,7 +52,6 @@ const ChatRoom: React.FC = () => {
                     />
                 ))}
             </div>
-
             <UserInput onSendMessage={handleSendMessage} />
         </div>
     );

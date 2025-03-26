@@ -5,7 +5,7 @@
     background-color: var(--input-bg);
     border-top: 1px solid var(--border-color);
   }
-  
+
   .input {
     flex-grow: 1;
     padding: 10px;
@@ -14,11 +14,11 @@
     font-size: 14px;
     outline: none;
   }
-  
+
   .input:focus {
     border-color: var(--primary-color);
   }
-  
+
   .sendButton {
     margin-left: 10px;
     padding: 10px 20px;
@@ -28,13 +28,12 @@
     border-radius: 20px;
     cursor: pointer;
   }
-  
+
   .sendButton:hover {
     background-color: var(--hover);
   }
-  
+
   .sendButton:disabled {
     background-color: var(--button-disabled);
     cursor: not-allowed;
   }
-  

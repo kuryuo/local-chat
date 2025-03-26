@@ -3,11 +3,9 @@ export const ROUTES = {
     CHAT: "/chat",
   };
 
-  export const STORAGE_KEYS = {
-    USER: "user",
-  };
-
-  export const MESSAGE = {
-    MAX_LENGTH: 500,
-  };
+export const STORAGE_KEYS = {
+    USERNAME: 'username',
+    CHATNAME: 'chatname',
+    MESSAGES: (chatname: string) => `messages_${chatname}`,
+};
   
