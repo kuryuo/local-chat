@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { UserInputProps } from "../../types/types.ts";
 import { useEmojiPicker } from "../../hooks/useEmojiPicker";
+import FileInput from "../FileInput/FileInput";
+import QuotedMessage from "../QuotedMessage/QuotedMessage";
 import styles from "./UserInput.module.css";
 import { BsEmojiSmile } from "react-icons/bs";
 import EmojiPicker from "emoji-picker-react";
@@ -14,10 +16,13 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage }) =
         handleEmojiClick,
     } = useEmojiPicker();
 
+    const [mediaUrl, setMediaUrl] = useState<string | null>(null);
+
     const handleSend = () => {
-        if (message.trim()) {
-            onSendMessage(message);
+        if (message.trim() || mediaUrl) {
+            onSendMessage(message, mediaUrl);
             setMessage("");
+            setMediaUrl(null);
         }
     };
 
@@ -28,13 +33,15 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage }) =
         }
     };
 
+    const handleFileSelect = (file: File) => {
+        const fileUrl = URL.createObjectURL(file);
+        setMediaUrl(fileUrl);
+    };
+
     return (
         <div className={styles.userInput}>
-            {quotedMessage && (
-                <div className={styles.quotedMessage}>
-                    <p><strong>{quotedMessage.userName}:</strong> {quotedMessage.text}</p>
-                </div>
-            )}
+            {quotedMessage && <QuotedMessage quotedMessage={quotedMessage} />}
+
             <textarea
                 className={styles.input}
                 placeholder="Type a message..."
@@ -43,6 +50,7 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage }) =
                 onKeyDown={handleKeyPress}
                 rows={1}
             />
+
             <div className={styles.buttonGroup}>
                 <button className={styles.emojiButton} onClick={toggleEmojiPicker}>
                     <BsEmojiSmile size={24} />
@@ -52,6 +60,8 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage }) =
                     Send
                 </button>
             </div>
+
+            <FileInput onFileSelect={handleFileSelect} />
 
             {showEmojiPicker && (
                 <div className={styles.emojiPicker}>

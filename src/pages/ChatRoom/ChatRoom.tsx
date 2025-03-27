@@ -39,7 +39,7 @@ const ChatRoom: React.FC = () => {
                 ))}
             </div>
             <UserInput
-                onSendMessage={(message: string) => handleSendMessage(message, username)}
+                onSendMessage={(message: string, mediaUrl: string | null) => handleSendMessage(message,username, mediaUrl || "")}
                 quotedMessage={quotedMessage}
             />
         </div>

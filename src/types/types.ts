@@ -1,7 +1,11 @@
 export interface UserInputProps {
-    onSendMessage: (message: string) => void;
-    quotedMessage?: { userName: string; text: string };
+    onSendMessage: (message: string, mediaUrl: string | null) => void;
+    quotedMessage?: {
+        userName: string;
+        text: string;
+    };
 }
+
 
 export interface MessageProps {
     userName: string;
@@ -17,4 +21,8 @@ export interface MessageProps {
 export interface RoomHeaderProps {
     chatname: string;
     onLeaveRoom: () => void;
+}
+
+export interface FileInputProps {
+    onFileSelect: (file: File) => void;
 }

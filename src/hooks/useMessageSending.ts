@@ -1,27 +1,27 @@
-    import { useLocalStorage } from './useLocalStorage';
-    import {useState} from "react";
+import { useLocalStorage } from './useLocalStorage';
+import { useState } from 'react';
 
-    export function useMessageSending(chatname: string) {
-        const [messages, setMessages] = useLocalStorage<any[]>(`messages_${chatname}`, []);
-        const [quotedMessage, setQuotedMessage] = useState<any | null>(null);
+export function useMessageSending(chatname: string) {
+    const [messages, setMessages] = useLocalStorage<any[]>(`messages_${chatname}`, []);
+    const [quotedMessage, setQuotedMessage] = useState<any | null>(null);
 
-        const handleSendMessage = (message: string, username: string) => {
-            const newMessage = {
-                userName: username,
-                timestamp: Date.now(),
-                text: message,
-                mediaUrl: null,
-                quotedMessage: quotedMessage || null,
-            };
-
-            const updatedMessages = [...messages, newMessage];
-            setMessages(updatedMessages);
-            setQuotedMessage(null);
+    const handleSendMessage = (message: string, username: string, mediaUrl: string | null) => {
+        const newMessage = {
+            userName: username,
+            timestamp: Date.now(),
+            text: message,
+            mediaUrl: mediaUrl,
+            quotedMessage: quotedMessage || null,
         };
 
-        const handleQuoteMessage = (message: any) => {
-            setQuotedMessage(message);
-        };
+        const updatedMessages = [...messages, newMessage];
+        setMessages(updatedMessages);
+        setQuotedMessage(null);
+    };
 
-        return { messages, handleSendMessage, quotedMessage, handleQuoteMessage };
-    }
+    const handleQuoteMessage = (message: any) => {
+        setQuotedMessage(message);
+    };
+
+    return { messages, handleSendMessage, quotedMessage, handleQuoteMessage };
+}
