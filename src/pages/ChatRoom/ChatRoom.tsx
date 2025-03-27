@@ -11,7 +11,7 @@ const ChatRoom: React.FC = () => {
     const [username] = useLocalStorage<string>('username', '');
     const [chatname] = useLocalStorage<string>('chatname', '');
 
-    const { messages, handleSendMessage } = useMessageSending(chatname);
+    const { messages, handleSendMessage, quotedMessage, handleQuoteMessage } = useMessageSending(chatname);
 
     const handleLeaveRoom = () => {
         localStorage.removeItem('username');
@@ -24,16 +24,24 @@ const ChatRoom: React.FC = () => {
             <RoomHeader chatname={chatname} onLeaveRoom={handleLeaveRoom} />
             <div className={styles.messages}>
                 {messages.map((msg, index) => (
-                    <Message
-                        key={index}
-                        userName={msg.userName}
-                        timestamp={msg.timestamp}
-                        text={msg.text}
-                        mediaUrl={msg.mediaUrl}
-                    />
+                    <div key={index}>
+                        <Message
+                            userName={msg.userName}
+                            timestamp={msg.timestamp}
+                            text={msg.text}
+                            mediaUrl={msg.mediaUrl}
+                            quotedMessage={msg.quotedMessage}
+                        />
+                        <button onClick={() => handleQuoteMessage(msg)}>
+                            Quote
+                        </button>
+                    </div>
                 ))}
             </div>
-            <UserInput onSendMessage={(message: string) => handleSendMessage(message, username)} />
+            <UserInput
+                onSendMessage={(message: string) => handleSendMessage(message, username)}
+                quotedMessage={quotedMessage}
+            />
         </div>
     );
 };

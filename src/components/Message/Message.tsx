@@ -1,19 +1,26 @@
 import React from 'react';
 import styles from './Message.module.css';
-import {MessageProps} from "../../types/types.ts";
-import {formatTime} from "../../utils/utils.ts";
+import { MessageProps } from '../../types/types.ts';
+import { formatTime } from '../../utils/utils.ts';
 
-const Message: React.FC<MessageProps> = ({ userName, timestamp, text, mediaUrl }) => {
-
+const Message: React.FC<MessageProps> = ({ userName, timestamp, text, mediaUrl, quotedMessage }) => {
     return (
         <div className={styles.message}>
             <div className={styles.header}>
                 <span className={styles.userName}>{userName}</span>
                 <span className={styles.timestamp}>{formatTime(timestamp)}</span>
             </div>
+
+            {quotedMessage && (
+                <div className={styles.quotedMessage}>
+                    <p><strong>{quotedMessage.userName}:</strong> {quotedMessage.text}</p>
+                </div>
+            )}
+
             <div className={styles.text}>
                 {text}
             </div>
+
             {mediaUrl && (
                 <div className={styles.media}>
                     <img src={mediaUrl} alt="media content" />

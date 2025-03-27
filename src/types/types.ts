@@ -1,5 +1,6 @@
 export interface UserInputProps {
     onSendMessage: (message: string) => void;
+    quotedMessage?: { userName: string; text: string };
 }
 
 export interface MessageProps {
@@ -7,6 +8,10 @@ export interface MessageProps {
     timestamp: number;
     text: string;
     mediaUrl?: string;
+    quotedMessage?: {
+        userName: string;
+        text: string;
+    };
 }
 
 export interface RoomHeaderProps {

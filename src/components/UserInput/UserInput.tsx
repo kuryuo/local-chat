@@ -5,7 +5,7 @@ import styles from "./UserInput.module.css";
 import { BsEmojiSmile } from "react-icons/bs";
 import EmojiPicker from "emoji-picker-react";
 
-const UserInput: React.FC<UserInputProps> = ({ onSendMessage }) => {
+const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage }) => {
     const {
         showEmojiPicker,
         message,
@@ -30,6 +30,11 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage }) => {
 
     return (
         <div className={styles.userInput}>
+            {quotedMessage && (
+                <div className={styles.quotedMessage}>
+                    <p><strong>{quotedMessage.userName}:</strong> {quotedMessage.text}</p>
+                </div>
+            )}
             <textarea
                 className={styles.input}
                 placeholder="Type a message..."
