@@ -1,36 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import RoomHeader from '../../components/RoomHeader/RoomHeader';
 import Message from '../../components/Message/Message';
 import UserInput from '../../components/UserInput/UserInput';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useMessageSending } from '../../hooks/useMessageSending';
 import { ROUTES } from '../../constans/const.ts';
 import styles from './ChatRoom.module.css';
 
 const ChatRoom: React.FC = () => {
     const [username] = useLocalStorage<string>('username', '');
     const [chatname] = useLocalStorage<string>('chatname', '');
-    const [messages, setMessages] = useLocalStorage<any[]>(`messages_${chatname}`, []);
 
-    useEffect(() => {
-        if (chatname) {
-            const savedMessages = localStorage.getItem(`messages_${chatname}`);
-            if (savedMessages) {
-                setMessages(JSON.parse(savedMessages));
-            }
-        }
-    }, [chatname]);
-
-    const handleSendMessage = (message: string) => {
-        const newMessage = {
-            userName: username,
-            timestamp: Date.now(),
-            text: message,
-            mediaUrl: null,
-        };
-
-        const updatedMessages = [...messages, newMessage];
-        setMessages(updatedMessages);
-    };
+    const { messages, handleSendMessage } = useMessageSending(chatname);
 
     const handleLeaveRoom = () => {
         localStorage.removeItem('username');
@@ -52,7 +33,7 @@ const ChatRoom: React.FC = () => {
                     />
                 ))}
             </div>
-            <UserInput onSendMessage={handleSendMessage} />
+            <UserInput onSendMessage={(message: string) => handleSendMessage(message, username)} />
         </div>
     );
 };

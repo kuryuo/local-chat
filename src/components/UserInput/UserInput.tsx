@@ -1,12 +1,18 @@
-import React, { useState } from "react";
-import EmojiPicker from "emoji-picker-react";
+import React from "react";
 import { UserInputProps } from "../../types/types.ts";
-import { BsEmojiSmile } from "react-icons/bs";
+import { useEmojiPicker } from "../../hooks/useEmojiPicker";
 import styles from "./UserInput.module.css";
+import { BsEmojiSmile } from "react-icons/bs";
+import EmojiPicker from "emoji-picker-react";
 
 const UserInput: React.FC<UserInputProps> = ({ onSendMessage }) => {
-    const [message, setMessage] = useState("");
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const {
+        showEmojiPicker,
+        message,
+        setMessage,
+        toggleEmojiPicker,
+        handleEmojiClick,
+    } = useEmojiPicker();
 
     const handleSend = () => {
         if (message.trim()) {
@@ -17,17 +23,9 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage }) => {
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault(); // Отменяет перенос строки и отправляет сообщение
+            e.preventDefault();
             handleSend();
         }
-    };
-
-    const handleEmojiClick = (emojiObject: any) => {
-        setMessage((prev) => prev + emojiObject.emoji);
-    };
-
-    const toggleEmojiPicker = () => {
-        setShowEmojiPicker((prev) => !prev);
     };
 
     return (
@@ -37,8 +35,8 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage }) => {
                 placeholder="Type a message..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={handleKeyPress} // Меняем на onKeyDown для Enter + Shift
-                rows={1} // Начальное количество строк
+                onKeyDown={handleKeyPress}
+                rows={1}
             />
             <div className={styles.buttonGroup}>
                 <button className={styles.emojiButton} onClick={toggleEmojiPicker}>
