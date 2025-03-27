@@ -1,0 +1,21 @@
+.chatRoom {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.messages {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 10px;
+    justify-content: flex-end;
+}
+
+.userInputContainer {
+    position: sticky;
+    bottom: 0;
+    background-color: var(--input-bg);
+    border-top: 1px solid var(--border-color);
+}
