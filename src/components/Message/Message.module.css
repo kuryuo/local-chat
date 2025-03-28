@@ -9,7 +9,6 @@
     max-width: 60%;
     word-wrap: break-word;
     width: fit-content;
-    flex-shrink: 0;
 }
 
 .messageRight {
@@ -24,18 +23,13 @@
     margin-right: auto;
 }
 
-.header {
-    color: var(--text-color);
-    margin-bottom: 5px;
-}
-
-.userName{
+.userName {
     font-size: 16px;
     font-weight: bold;
 }
 
 .timestamp {
-    font-size: 0.75rem;
+    font-size: 12px;
     color: var(--secondary-text);
     font-weight: 400;
 }
@@ -47,24 +41,12 @@
 }
 
 .quotedMessage {
-    border-left: 4px solid #ccc;
-    padding-left: 8px;
-    margin-bottom: 4px;
-    color: #555;
+    border-left: 4px solid var(--primary-color);
+    margin: 8px 0;
+    padding: 0 5px;
+    color: var(--secondary-text);
     font-style: italic;
-    background-color: #f8f8f8;
-    margin-top: 10px;
-}
-
-.media {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-}
-
-.image {
-    max-width: 100%;
-    border-radius: 8px;
+    background-color: var(--background-color);
 }
 
 .quoteIcon {
@@ -82,8 +64,10 @@
 
 .leftArrow {
     left: -25px;
+    transform: scaleX(-1);
 }
 
 .rightArrow {
     right: -25px;
+    transform: scaleX(1);
 }

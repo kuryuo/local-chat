@@ -27,6 +27,10 @@ const ChatRoom: React.FC = () => {
         window.location.href = ROUTES.LOGIN;
     };
 
+    const handleCancelQuote = () => {
+        handleQuoteMessage(null);
+    };
+
     return (
         <div className={styles.chatRoom}>
             <RoomHeader chatname={chatname} onLeaveRoom={handleLeaveRoom} />
@@ -47,6 +51,7 @@ const ChatRoom: React.FC = () => {
             <UserInput
                 onSendMessage={(message: string) => handleSendMessage(message, username)}
                 quotedMessage={quotedMessage}
+                onCancelQuote={handleCancelQuote}
             />
         </div>
     );

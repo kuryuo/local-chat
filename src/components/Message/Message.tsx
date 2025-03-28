@@ -40,7 +40,6 @@ const Message: React.FC<MessageProps> = ({
                 alt="Quote"
                 className={`${styles.quoteIcon} ${isCurrentUser ? styles.leftArrow : styles.rightArrow}`}
                 onClick={() => onQuoteMessage({ userName, timestamp, text, quotedMessage })}
-                style={{ transform: isCurrentUser ? 'scaleX(-1)' : 'scaleX(1)' }}
             />
         </div>
     );

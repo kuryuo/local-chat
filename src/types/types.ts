@@ -4,6 +4,7 @@ export interface UserInputProps {
         userName: string;
         text: string;
     };
+    onCancelQuote?: () => void;
 }
 
 export interface MessageProps {

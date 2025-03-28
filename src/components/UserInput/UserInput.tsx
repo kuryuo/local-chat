@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import { UserInputProps } from "../../types/types.ts";
 import { useEmojiPicker } from "../../hooks/useEmojiPicker";
-import FileInput from "../FileInput/FileInput";
 import QuotedMessage from "../QuotedMessage/QuotedMessage";
 import Button from "../Button/Button";
 import styles from "./UserInput.module.css";
 import { BsEmojiSmile } from "react-icons/bs";
 import EmojiPicker from "emoji-picker-react";
 import { autoResizeTextarea } from "../../utils/utils.ts";
+import { FiX } from "react-icons/fi";
 
-const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage }) => {
+const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage, onCancelQuote }) => {
     const {
         showEmojiPicker,
         message,
@@ -52,9 +52,23 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage }) =
         }
     };
 
+    const handleCancelQuote = () => {
+        setMessage("");
+        if (onCancelQuote) {
+            onCancelQuote();
+        }
+    };
+
     return (
         <div className={styles.userInput}>
-            {quotedMessage && <QuotedMessage quotedMessage={quotedMessage} />}
+            {quotedMessage && (
+                <div className={styles.quotedMessageContainer}>
+                    <QuotedMessage quotedMessage={quotedMessage} />
+                    <button className={styles.cancelQuoteButton} onClick={handleCancelQuote}>
+                        <FiX size={16} />
+                    </button>
+                </div>
+            )}
 
             <textarea
                 className={styles.input}
@@ -70,8 +84,6 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage }) =
                 <button className={styles.emojiButton} onClick={toggleEmojiPicker}>
                     <BsEmojiSmile size={24} />
                 </button>
-
-                <FileInput />
 
                 <Button label="Отправить" onClick={handleSend} />
             </div>
