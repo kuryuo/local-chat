@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import RoomHeader from '../../components/RoomHeader/RoomHeader';
 import Message from '../../components/Message/Message';
 import UserInput from '../../components/UserInput/UserInput';
@@ -12,6 +12,14 @@ const ChatRoom: React.FC = () => {
     const [chatname] = useLocalStorage<string>('chatname', '');
 
     const { messages, handleSendMessage, quotedMessage, handleQuoteMessage } = useMessageSending(chatname);
+
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages]);
 
     const handleLeaveRoom = () => {
         localStorage.removeItem('username');
@@ -29,15 +37,15 @@ const ChatRoom: React.FC = () => {
                             userName={msg.userName}
                             timestamp={msg.timestamp}
                             text={msg.text}
-                            mediaUrl={msg.mediaUrl}
                             quotedMessage={msg.quotedMessage}
                             onQuoteMessage={handleQuoteMessage}
                         />
                     </div>
                 ))}
+                <div ref={messagesEndRef} />
             </div>
             <UserInput
-                onSendMessage={(message: string, mediaUrl: string | null) => handleSendMessage(message, username, mediaUrl || "")}
+                onSendMessage={(message: string) => handleSendMessage(message, username)}
                 quotedMessage={quotedMessage}
             />
         </div>

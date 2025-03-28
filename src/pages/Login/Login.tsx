@@ -11,13 +11,23 @@ export default function Login() {
   const [chatname, setChatname] = useState('');
   const [, setStoredUsername] = useLocalStorage<string>('username', '');
   const [, setStoredChatname] = useLocalStorage<string>('chatname', '');
-
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting username:", username);
-    console.log("Submitting chatname:", chatname);
+    if (!username || !chatname) {
+      setError('Поля не должны быть пустыми');
+      return;
+    }
+    setError(null);
+
+    const participants = JSON.parse(localStorage.getItem('participants') || '[]');
+    if (!participants.includes(username)) {
+      participants.push(username);
+      localStorage.setItem('participants', JSON.stringify(participants));
+    }
+
     setStoredUsername(username);
     setStoredChatname(chatname);
     navigate(ROUTES.CHAT);
@@ -57,6 +67,8 @@ export default function Login() {
                   onChange={(e) => setChatname(e.target.value)}
               />
             </label>
+
+            {error && <p className={styles.error}>{error}</p>}
 
             <div className={styles.buttonContainer}>
               <Button label="Войти в чат" />

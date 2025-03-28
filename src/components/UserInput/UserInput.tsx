@@ -19,10 +19,24 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage }) =
     } = useEmojiPicker();
 
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+    const emojiPickerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         autoResizeTextarea(textAreaRef.current);
     }, [message]);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target as Node)) {
+                toggleEmojiPicker();
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [toggleEmojiPicker]);
 
     const handleSend = () => {
         if (message.trim()) {
@@ -63,7 +77,7 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage }) =
             </div>
 
             {showEmojiPicker && (
-                <div className={styles.emojiPicker}>
+                <div ref={emojiPickerRef} className={styles.emojiPicker}>
                     <EmojiPicker onEmojiClick={handleEmojiClick} />
                 </div>
             )}

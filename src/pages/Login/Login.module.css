@@ -31,6 +31,11 @@
   font-size: 1.2rem;
 }
 
+.error {
+    color: red;
+    margin-top: 5px;
+}
+
 @media (width <= 991px) {
     .chatCard {
       width: 90%;

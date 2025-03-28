@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './RoomHeader.module.css';
 import logo from '../../assets/img/logo.svg';
@@ -8,6 +8,12 @@ import Button from '../Button/Button';
 
 const RoomHeader: React.FC<RoomHeaderProps> = ({ chatname, onLeaveRoom }) => {
     const navigate = useNavigate();
+    const [participants, setParticipants] = useState<string[]>([]);
+
+    useEffect(() => {
+        const storedParticipants = JSON.parse(localStorage.getItem('participants') || '[]');
+        setParticipants(storedParticipants);
+    }, []);
 
     const handleLeaveRoom = () => {
         onLeaveRoom();
@@ -20,14 +26,16 @@ const RoomHeader: React.FC<RoomHeaderProps> = ({ chatname, onLeaveRoom }) => {
                 <img src={logo} alt="Chat Icon" />
                 <div className={styles.roomInfo}>
                     <h1 className={styles.roomName}>{chatname || 'Chat Room'}</h1>
-                    <span className={styles.participants}>5 participants</span>
+
+                    <span className={styles.participants}>
+                        {participants.length > 0 ? participants.join(', ') : 'Нет участников'}
+                    </span>
                 </div>
             </div>
 
             <Button
                 label="Leave Room"
                 onClick={handleLeaveRoom}
-                variant="default"
             />
         </div>
     );
