@@ -19,11 +19,3 @@
     display: flex;
     flex-direction: column;
 }
-
-.leaveButton {
-    color: red;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-}

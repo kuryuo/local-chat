@@ -5,12 +5,11 @@ export function useMessageSending(chatname: string) {
     const [messages, setMessages] = useLocalStorage<any[]>(`messages_${chatname}`, []);
     const [quotedMessage, setQuotedMessage] = useState<any | null>(null);
 
-    const handleSendMessage = (message: string, username: string, mediaUrl: string | null) => {
+    const handleSendMessage = (message: string, username: string) => {
         const newMessage = {
             userName: username,
             timestamp: Date.now(),
             text: message,
-            mediaUrl: mediaUrl,
             quotedMessage: quotedMessage || null,
         };
 

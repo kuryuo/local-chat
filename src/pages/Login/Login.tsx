@@ -1,9 +1,10 @@
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/img/logo.svg';
 import styles from './Login.module.css';
-import {useState} from 'react';
-import {useLocalStorage} from '../../hooks/useLocalStorage';
-import {useNavigate} from 'react-router-dom';
-import {ROUTES} from '../../constans/const';
+import { useState } from 'react';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../constans/const';
+import Button from "../../components/Button/Button.tsx";
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -15,6 +16,8 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Submitting username:", username);
+    console.log("Submitting chatname:", chatname);
     setStoredUsername(username);
     setStoredChatname(chatname);
     navigate(ROUTES.CHAT);
@@ -55,9 +58,9 @@ export default function Login() {
               />
             </label>
 
-            <button type="submit" className={styles.submitButton}>
-              Войти в чат
-            </button>
+            <div className={styles.buttonContainer}>
+              <Button label="Войти в чат" />
+            </div>
           </form>
 
           <footer className={styles.footer}>

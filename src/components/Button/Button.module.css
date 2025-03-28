@@ -1,0 +1,16 @@
+.button {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: var(--hover);
+}
+
+.button:active {
+    background-color: var(--active);
+}

@@ -1,30 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './FileInput.module.css';
-import {FileInputProps} from "../../types/types.ts";
+import clipIcon from '../../assets/img/icon.svg';
 
-const FileInput: React.FC<FileInputProps> = ({ onFileSelect }) => {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files ? e.target.files[0] : null;
-        if (file) {
-            setSelectedFile(file);
-            onFileSelect(file);
-        }
-    };
-
+const FileInput: React.FC = () => {
     return (
         <div className={styles.fileInput}>
             <input
                 type="file"
+                id="file-upload"
                 accept="image/*, video/*"
-                onChange={handleFileChange}
+                className={styles.hiddenInput}
             />
-            {selectedFile && (
-                <div className={styles.selectedFile}>
-                    <p>{selectedFile.name}</p>
-                </div>
-            )}
+            <label htmlFor="file-upload" className={styles.iconButton}>
+                <img src={clipIcon} alt="Attach file" className={styles.icon} />
+            </label>
         </div>
     );
 };

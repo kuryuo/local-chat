@@ -31,15 +31,13 @@ const ChatRoom: React.FC = () => {
                             text={msg.text}
                             mediaUrl={msg.mediaUrl}
                             quotedMessage={msg.quotedMessage}
+                            onQuoteMessage={handleQuoteMessage}
                         />
-                        <button onClick={() => handleQuoteMessage(msg)}>
-                            Quote
-                        </button>
                     </div>
                 ))}
             </div>
             <UserInput
-                onSendMessage={(message: string, mediaUrl: string | null) => handleSendMessage(message,username, mediaUrl || "")}
+                onSendMessage={(message: string, mediaUrl: string | null) => handleSendMessage(message, username, mediaUrl || "")}
                 quotedMessage={quotedMessage}
             />
         </div>

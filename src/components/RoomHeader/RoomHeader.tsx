@@ -1,9 +1,10 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './RoomHeader.module.css';
-import logo from '../../assets/logo.svg';
-import {RoomHeaderProps} from "../../types/types.ts";
-import {ROUTES} from "../../constans/const.ts";
+import logo from '../../assets/img/logo.svg';
+import { RoomHeaderProps } from "../../types/types.ts";
+import { ROUTES } from "../../constans/const.ts";
+import Button from '../Button/Button';
 
 const RoomHeader: React.FC<RoomHeaderProps> = ({ chatname, onLeaveRoom }) => {
     const navigate = useNavigate();
@@ -22,9 +23,12 @@ const RoomHeader: React.FC<RoomHeaderProps> = ({ chatname, onLeaveRoom }) => {
                     <span className={styles.participants}>5 participants</span>
                 </div>
             </div>
-            <button className={styles.leaveButton} onClick={handleLeaveRoom}>
-                Leave Room
-            </button>
+
+            <Button
+                label="Leave Room"
+                onClick={handleLeaveRoom}
+                variant="default"
+            />
         </div>
     );
 };
