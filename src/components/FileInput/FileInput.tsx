@@ -19,7 +19,6 @@ const FileInput: React.FC<FileInputProps> = ({ setFileId, setFileName }) => {
 
             try {
                 const fileId = await saveFile(selectedFile);
-                console.log('Generated fileId:', fileId);
                 setFileId(fileId);
             } catch (error) {
                 console.error('Error saving file:', error);

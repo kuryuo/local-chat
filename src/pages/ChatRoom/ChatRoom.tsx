@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import RoomHeader from '../../components/RoomHeader/RoomHeader';
 import Message from '../../components/Message/Message';
 import UserInput from '../../components/UserInput/UserInput';
@@ -11,13 +11,15 @@ import styles from './ChatRoom.module.css';
 const ChatRoom: React.FC = () => {
     const [username] = useLocalStorage<string>(STORAGE_KEYS.USERNAME, '');
     const [chatname] = useLocalStorage<string>(STORAGE_KEYS.CHATNAME, '');
+    const [modalImage, setModalImage] = useState<string | null>(null);
 
     const { messages, handleSendMessage, quotedMessage, handleQuoteMessage } = useMessageSending(chatname);
 
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-    // Получаем уникальный идентификатор сессии
     const sessionId = useSessionId();
+
+    const messageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -44,8 +46,13 @@ const ChatRoom: React.FC = () => {
             </div>
 
             <div className={styles.messages}>
-                {messages.map((msg, index) => (
-                    <div key={index}>
+                {messages.map((msg) => (
+                    <div
+                        key={msg.timestamp}
+                        ref={(el) => {
+                            messageRefs.current[msg.timestamp] = el;
+                        }}
+                    >
                         <Message
                             userName={msg.userName}
                             timestamp={msg.timestamp}
@@ -53,6 +60,13 @@ const ChatRoom: React.FC = () => {
                             quotedMessage={msg.quotedMessage}
                             fileId={msg.file}
                             onQuoteMessage={handleQuoteMessage}
+                            onScrollToQuoted={() => {
+                                const quoted = msg.quotedMessage;
+                                if (quoted && messageRefs.current[quoted.timestamp]) {
+                                    messageRefs.current[quoted.timestamp]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }
+                            }}
+                            onOpenImage={(url) => setModalImage(url)}
                         />
                     </div>
                 ))}
@@ -64,6 +78,13 @@ const ChatRoom: React.FC = () => {
                 quotedMessage={quotedMessage}
                 onCancelQuote={handleCancelQuote}
             />
+
+            {modalImage && (
+                <div className={styles.modalOverlay} onClick={() => setModalImage(null)}>
+                    <img src={modalImage} alt="Full View" className={styles.modalImage} />
+                </div>
+            )}
+
         </div>
     );
 };

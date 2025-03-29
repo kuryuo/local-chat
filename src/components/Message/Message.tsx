@@ -13,6 +13,8 @@ const Message: React.FC<MessageProps> = ({
                                              fileId,
                                              quotedMessage,
                                              onQuoteMessage,
+                                             onScrollToQuoted,
+                                             onOpenImage,
                                          }) => {
     const [currentUser] = useLocalStorage<string>('username', '');
     const [fileData, setFileData] = useState<File | null>(null);
@@ -33,7 +35,16 @@ const Message: React.FC<MessageProps> = ({
         if (!file) return null;
 
         if (file.type.startsWith('image/')) {
-            return <img src={URL.createObjectURL(file)} alt="Message Media" className={styles.mediaImage} />;
+            const imageUrl = URL.createObjectURL(file);
+            return (
+                <img
+                    src={imageUrl}
+                    alt="Message Media"
+                    className={styles.mediaImage}
+                    onClick={() => onOpenImage?.(imageUrl)}
+                    style={{ cursor: 'zoom-in' }}
+                />
+            );
         }
 
         if (file.type.startsWith('video/')) {
@@ -55,7 +66,11 @@ const Message: React.FC<MessageProps> = ({
             </div>
 
             {quotedMessage && (
-                <div className={styles.quotedMessage}>
+                <div
+                    className={styles.quotedMessage}
+                    onClick={onScrollToQuoted}
+                    style={{ cursor: 'pointer' }}
+                >
                     <p><strong>{quotedMessage.userName}:</strong> {quotedMessage.text}</p>
                 </div>
             )}

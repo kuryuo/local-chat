@@ -7,7 +7,6 @@ export function useMessageSending(chatname: string) {
     const [quotedMessage, setQuotedMessage] = useState<any | null>(null);
 
     const handleSendMessage = async (message: string, fileId: string | null, username: string) => {
-        console.log('Received fileId in handleSendMessage:', fileId);
 
         const newMessage = {
             userName: username,
@@ -16,8 +15,6 @@ export function useMessageSending(chatname: string) {
             quotedMessage: quotedMessage || null,
             file: fileId,
         };
-
-        console.log('New message to save:', newMessage);
 
         const updatedMessages = [...messages, newMessage];
         setMessages(updatedMessages);

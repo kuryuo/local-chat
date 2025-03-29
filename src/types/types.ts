@@ -12,20 +12,25 @@ export interface MessageProps {
     timestamp: number;
     text: string;
     fileId?: string | null;
+    onOpenImage?: (url: string) => void;
     quotedMessage?: {
         userName: string;
         text: string;
+        timestamp: number;
     };
     onQuoteMessage: (message: {
         userName: string;
         timestamp: number;
         text: string;
         fileId?: string | null;
+        onOpenImage?: (url: string) => void;
         quotedMessage?: {
             userName: string;
             text: string;
+            timestamp: number;
         };
     }) => void;
+    onScrollToQuoted?: () => void;
 }
 
 export interface RoomHeaderProps {
