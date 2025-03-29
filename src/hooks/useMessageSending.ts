@@ -1,17 +1,23 @@
 import { useLocalStorage } from './useLocalStorage';
 import { useState } from 'react';
+import {STORAGE_KEYS} from "../constans/const.ts";
 
 export function useMessageSending(chatname: string) {
-    const [messages, setMessages] = useLocalStorage<any[]>(`messages_${chatname}`, []);
+    const [messages, setMessages] = useLocalStorage<any[]>(STORAGE_KEYS.MESSAGES(chatname), []);
     const [quotedMessage, setQuotedMessage] = useState<any | null>(null);
 
-    const handleSendMessage = (message: string, username: string) => {
+    const handleSendMessage = async (message: string, fileId: string | null, username: string) => {
+        console.log('Received fileId in handleSendMessage:', fileId);
+
         const newMessage = {
             userName: username,
             timestamp: Date.now(),
             text: message,
             quotedMessage: quotedMessage || null,
+            file: fileId,
         };
+
+        console.log('New message to save:', newMessage);
 
         const updatedMessages = [...messages, newMessage];
         setMessages(updatedMessages);

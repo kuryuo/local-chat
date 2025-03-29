@@ -22,14 +22,16 @@ export default function Login() {
     }
     setError(null);
 
-    const participants = JSON.parse(localStorage.getItem('participants') || '[]');
+    const participants = JSON.parse(localStorage.getItem(`participants_${chatname}`) || '[]');
+
     if (!participants.includes(username)) {
       participants.push(username);
-      localStorage.setItem('participants', JSON.stringify(participants));
+      localStorage.setItem(`participants_${chatname}`, JSON.stringify(participants));
     }
 
     setStoredUsername(username);
     setStoredChatname(chatname);
+
     navigate(ROUTES.CHAT);
   };
 

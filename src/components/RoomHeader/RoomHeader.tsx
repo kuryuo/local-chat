@@ -11,9 +11,9 @@ const RoomHeader: React.FC<RoomHeaderProps> = ({ chatname, onLeaveRoom }) => {
     const [participants, setParticipants] = useState<string[]>([]);
 
     useEffect(() => {
-        const storedParticipants = JSON.parse(localStorage.getItem('participants') || '[]');
+        const storedParticipants = JSON.parse(localStorage.getItem(`participants_${chatname}`) || '[]');
         setParticipants(storedParticipants);
-    }, []);
+    }, [chatname]);
 
     const handleLeaveRoom = () => {
         onLeaveRoom();

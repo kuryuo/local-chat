@@ -1,19 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Message.module.css';
 import { MessageProps } from '../../types/types.ts';
 import { formatTime } from '../../utils/utils.ts';
 import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
+import { getFile } from '../../db.ts';
 import arrowIcon from '../../assets/img/arrow.svg';
 
 const Message: React.FC<MessageProps> = ({
                                              userName,
                                              timestamp,
                                              text,
+                                             fileId,
                                              quotedMessage,
-                                             onQuoteMessage
+                                             onQuoteMessage,
                                          }) => {
     const [currentUser] = useLocalStorage<string>('username', '');
+    const [fileData, setFileData] = useState<File | null>(null);
+
     const isCurrentUser = currentUser === userName;
+
+    useEffect(() => {
+        const loadFile = async () => {
+            if (fileId) {
+                const fileFromDB = await getFile(fileId);
+                setFileData(fileFromDB);
+            }
+        };
+        loadFile();
+    }, [fileId]);
+
+    const renderMediaContent = (file: File | null) => {
+        if (!file) return null;
+
+        if (file.type.startsWith('image/')) {
+            return <img src={URL.createObjectURL(file)} alt="Message Media" className={styles.mediaImage} />;
+        }
+
+        if (file.type.startsWith('video/')) {
+            return (
+                <video controls className={styles.mediaVideo}>
+                    <source src={URL.createObjectURL(file)} />
+                    Ваш браузер не поддерживает видео.
+                </video>
+            );
+        }
+
+        return null;
+    };
 
     return (
         <div className={`${styles.message} ${isCurrentUser ? styles.messageRight : styles.messageLeft}`}>
@@ -30,6 +63,8 @@ const Message: React.FC<MessageProps> = ({
             <div className={styles.text}>
                 {text}
             </div>
+
+            {renderMediaContent(fileData)}
 
             <div className={styles.timestamp}>
                 {formatTime(timestamp)}

@@ -1,0 +1,22 @@
+.fileInputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filePreview {
+    margin-top: 10px;
+}
+
+.fileUploadIcon:hover {
+    transform: scale(1.05);
+}
+
+.fileUploadIcon:active {
+    transform: scale(0.9);
+}
+
+.fileUploadIcon img {
+    width: 25px;
+    height: 25px;
+}

@@ -71,6 +71,10 @@
   margin-left: 10px;
 }
 
+.emojiButton:hover {
+  transform: scale(1.05);
+}
+
 .emojiButton:active {
   transform: scale(0.9);
 }

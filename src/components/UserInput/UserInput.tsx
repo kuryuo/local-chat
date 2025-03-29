@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { UserInputProps } from "../../types/types.ts";
 import { useEmojiPicker } from "../../hooks/useEmojiPicker";
 import QuotedMessage from "../QuotedMessage/QuotedMessage";
@@ -8,6 +8,7 @@ import { BsEmojiSmile } from "react-icons/bs";
 import EmojiPicker from "emoji-picker-react";
 import { autoResizeTextarea } from "../../utils/utils.ts";
 import { FiX } from "react-icons/fi";
+import FileInput from "../FileInput/FileInput";
 
 const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage, onCancelQuote }) => {
     const {
@@ -20,6 +21,9 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage, onC
 
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
     const emojiPickerRef = useRef<HTMLDivElement | null>(null);
+    const [fileId, setFileId] = useState<string | null>(null);
+    const [fileName, setFileName] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         autoResizeTextarea(textAreaRef.current);
@@ -39,9 +43,11 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage, onC
     }, [toggleEmojiPicker]);
 
     const handleSend = () => {
-        if (message.trim()) {
-            onSendMessage(message);
+        if (message.trim() || fileId) {
+            onSendMessage(message, fileId);
             setMessage("");
+            setFileId(null);
+            setFileName(null);
         }
     };
 
@@ -56,6 +62,15 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage, onC
         setMessage("");
         if (onCancelQuote) {
             onCancelQuote();
+        }
+    };
+
+    const handleCancelFile = () => {
+        setFileId(null);
+        setFileName(null);
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
         }
     };
 
@@ -84,6 +99,17 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, quotedMessage, onC
                 <button className={styles.emojiButton} onClick={toggleEmojiPicker}>
                     <BsEmojiSmile size={24} />
                 </button>
+
+                <FileInput key={fileId || "new"} setFileId={setFileId} setFileName={setFileName} />
+
+                {fileName && (
+                    <div className={styles.fileNameContainer}>
+                        <span>{fileName}</span>
+                        <button onClick={handleCancelFile} className={styles.cancelFileButton}>
+                            <FiX size={12} />
+                        </button>
+                    </div>
+                )}
 
                 <Button label="Отправить" onClick={handleSend} />
             </div>

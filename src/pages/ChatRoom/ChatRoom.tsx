@@ -4,12 +4,12 @@ import Message from '../../components/Message/Message';
 import UserInput from '../../components/UserInput/UserInput';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useMessageSending } from '../../hooks/useMessageSending';
-import { ROUTES } from '../../constans/const.ts';
+import { ROUTES, STORAGE_KEYS } from '../../constans/const.ts';
 import styles from './ChatRoom.module.css';
 
 const ChatRoom: React.FC = () => {
-    const [username] = useLocalStorage<string>('username', '');
-    const [chatname] = useLocalStorage<string>('chatname', '');
+    const [username] = useLocalStorage<string>(STORAGE_KEYS.USERNAME, '');
+    const [chatname] = useLocalStorage<string>(STORAGE_KEYS.CHATNAME, '');
 
     const { messages, handleSendMessage, quotedMessage, handleQuoteMessage } = useMessageSending(chatname);
 
@@ -22,8 +22,8 @@ const ChatRoom: React.FC = () => {
     }, [messages]);
 
     const handleLeaveRoom = () => {
-        localStorage.removeItem('username');
-        localStorage.removeItem('chatname');
+        localStorage.removeItem(STORAGE_KEYS.USERNAME);
+        localStorage.removeItem(STORAGE_KEYS.CHATNAME);
         window.location.href = ROUTES.LOGIN;
     };
 
@@ -34,6 +34,7 @@ const ChatRoom: React.FC = () => {
     return (
         <div className={styles.chatRoom}>
             <RoomHeader chatname={chatname} onLeaveRoom={handleLeaveRoom} />
+
             <div className={styles.messages}>
                 {messages.map((msg, index) => (
                     <div key={index}>
@@ -42,14 +43,16 @@ const ChatRoom: React.FC = () => {
                             timestamp={msg.timestamp}
                             text={msg.text}
                             quotedMessage={msg.quotedMessage}
+                            fileId={msg.file}
                             onQuoteMessage={handleQuoteMessage}
                         />
                     </div>
                 ))}
                 <div ref={messagesEndRef} />
             </div>
+
             <UserInput
-                onSendMessage={(message: string) => handleSendMessage(message, username)}
+                onSendMessage={(message: string, fileId: string | null) => handleSendMessage(message, fileId, username)}
                 quotedMessage={quotedMessage}
                 onCancelQuote={handleCancelQuote}
             />
