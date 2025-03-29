@@ -50,6 +50,10 @@ body {
     background-color: var(--grey);
 }
 
+.sessionId{
+    margin: 0 10px;
+}
+
 .userInputContainer {
     position: sticky;
     bottom: 0;

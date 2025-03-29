@@ -5,6 +5,7 @@ import UserInput from '../../components/UserInput/UserInput';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useMessageSending } from '../../hooks/useMessageSending';
 import { ROUTES, STORAGE_KEYS } from '../../constans/const.ts';
+import useSessionId from '../../hooks/useSessionId';
 import styles from './ChatRoom.module.css';
 
 const ChatRoom: React.FC = () => {
@@ -14,6 +15,9 @@ const ChatRoom: React.FC = () => {
     const { messages, handleSendMessage, quotedMessage, handleQuoteMessage } = useMessageSending(chatname);
 
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+    // Получаем уникальный идентификатор сессии
+    const sessionId = useSessionId();
 
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -34,6 +38,10 @@ const ChatRoom: React.FC = () => {
     return (
         <div className={styles.chatRoom}>
             <RoomHeader chatname={chatname} onLeaveRoom={handleLeaveRoom} />
+
+            <div className={styles.sessionId}>
+                <p>Идентификатор вашей сессии: {sessionId}</p>
+            </div>
 
             <div className={styles.messages}>
                 {messages.map((msg, index) => (
