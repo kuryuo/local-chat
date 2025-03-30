@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login/Login";
-import ChatRoom from "./pages/ChatRoom/ChatRoom";
-import { ROUTES } from "./constans/const";
+import Login from "../pages/Login/LoginPage.tsx";
+import ChatRoom from "../pages/ChatRoom/ChatRoom.tsx";
+import { ROUTES } from "@/shared/consts/const.ts";
 
 function App() {
 

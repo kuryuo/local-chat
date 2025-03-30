@@ -14,41 +14,6 @@
     padding: 40px;
     box-shadow: var(--shadow);
   }
-
-  .description{
-      margin: 20px 0px;
-  }
-
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.buttonContainer button {
-  width: 100%;
-  max-width: 300px;
-  font-size: 1.2rem;
-}
-
-.error {
-    color: red;
-    margin-top: 5px;
-}
-
-@media (width <= 991px) {
-    .chatCard {
-      width: 90%;
-      max-width: 480px;
-    }
-  }
-  
-  @media (width <= 640px) {
-    .chatCard {
-      width: 100%;
-      padding: 20px;
-    }
-  }
   
   .header {
     align-items: center;

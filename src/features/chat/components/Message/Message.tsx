@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Message.module.css';
-import { MessageProps } from '../../types/types.ts';
-import { formatTime } from '../../utils/utils.ts';
-import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
-import { getFile } from '../../db.ts';
-import arrowIcon from '../../assets/img/arrow.svg';
+import { ChatMessage, QuotedMessage } from '../../model/message';
+import { formatTime } from '@/shared/utils/utils';
+import { useLocalStorage } from '@/shared/hooks/useLocalStorage';
+import { getFile } from '@/db';
+import arrowIcon from '@/shared/assets/img/arrow.svg';
+
+interface MessageProps extends ChatMessage {
+    onQuoteMessage: (message: QuotedMessage) => void;
+    onScrollToQuoted?: () => void;
+    onOpenImage?: (url: string) => void;
+}
 
 const Message: React.FC<MessageProps> = ({
                                              userName,
@@ -22,36 +28,35 @@ const Message: React.FC<MessageProps> = ({
     const isCurrentUser = currentUser === userName;
 
     useEffect(() => {
-        const loadFile = async () => {
-            if (fileId) {
-                const fileFromDB = await getFile(fileId);
-                setFileData(fileFromDB);
-            }
-        };
-        loadFile();
+        if (!fileId) return;
+        getFile(fileId)
+            .then((file) => {
+                setFileData(file);
+            })
+            .catch((err) => console.error('Error loading file:', err));
     }, [fileId]);
 
-    const renderMediaContent = (file: File | null) => {
-        if (!file) return null;
 
-        if (file.type.startsWith('image/')) {
-            const imageUrl = URL.createObjectURL(file);
+    const renderMediaContent = () => {
+        if (!fileData) return null;
+
+        const url = URL.createObjectURL(fileData);
+
+        if (fileData.type.startsWith('image/')) {
             return (
                 <img
-                    src={imageUrl}
-                    alt="Message Media"
+                    src={url}
+                    alt="Image"
                     className={styles.mediaImage}
-                    onClick={() => onOpenImage?.(imageUrl)}
-                    style={{ cursor: 'zoom-in' }}
+                    onClick={() => onOpenImage?.(url)}
                 />
             );
         }
 
-        if (file.type.startsWith('video/')) {
+        if (fileData.type.startsWith('video/')) {
             return (
                 <video controls className={styles.mediaVideo}>
-                    <source src={URL.createObjectURL(file)} />
-                    Ваш браузер не поддерживает видео.
+                    <source src={url} />
                 </video>
             );
         }
@@ -66,30 +71,29 @@ const Message: React.FC<MessageProps> = ({
             </div>
 
             {quotedMessage && (
-                <div
-                    className={styles.quotedMessage}
-                    onClick={onScrollToQuoted}
-                    style={{ cursor: 'pointer' }}
-                >
+                <div className={styles.quotedMessage} onClick={onScrollToQuoted}>
                     <p><strong>{quotedMessage.userName}:</strong> {quotedMessage.text}</p>
                 </div>
             )}
 
-            <div className={styles.text}>
-                {text}
-            </div>
+            <div className={styles.text}>{text}</div>
 
-            {renderMediaContent(fileData)}
+            {renderMediaContent()}
 
-            <div className={styles.timestamp}>
-                {formatTime(timestamp)}
-            </div>
+            <div className={styles.timestamp}>{formatTime(timestamp)}</div>
 
             <img
                 src={arrowIcon}
                 alt="Quote"
                 className={`${styles.quoteIcon} ${isCurrentUser ? styles.leftArrow : styles.rightArrow}`}
-                onClick={() => onQuoteMessage({ userName, timestamp, text, quotedMessage })}
+                onClick={() =>
+                    onQuoteMessage({
+                        userName,
+                        timestamp,
+                        text,
+                        ...(quotedMessage && { quotedMessage }),
+                    })
+                }
             />
         </div>
     );

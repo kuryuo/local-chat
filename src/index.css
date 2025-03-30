@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Roboto';
-  src: url('./assets/fonts/roboto.woff2') format('woff2'),
-  url('./assets/fonts/roboto.woff') format('woff');
+  src: url('shared/assets/fonts/roboto.woff2') format('woff2'),
+  url('shared/assets/fonts/roboto.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }

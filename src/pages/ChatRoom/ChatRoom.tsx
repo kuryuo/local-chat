@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import RoomHeader from '../../components/RoomHeader/RoomHeader';
-import Message from '../../components/Message/Message';
-import UserInput from '../../components/UserInput/UserInput';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { useMessageSending } from '../../hooks/useMessageSending';
-import { ROUTES, STORAGE_KEYS } from '../../constans/const.ts';
-import useSessionId from '../../hooks/useSessionId';
+import React, { useEffect, useState, useRef } from 'react';
+import { useLocalStorage } from '@/shared/hooks/useLocalStorage';
+import { useMessageSending } from '@/features/chat/hooks/useMessageSending';
+import { useSessionId } from '@/features/auth/hooks/useSessionId';
+import { ROUTES, STORAGE_KEYS } from '@/shared/consts/const';
+import RoomHeader from '@/features/chat/components/RoomHeader/RoomHeader';
+import UserInput from '@/features/chat/components/UserInput/UserInput';
+import Message from '@/features/chat/components/Message/Message';
 import styles from './ChatRoom.module.css';
 
 const ChatRoom: React.FC = () => {
@@ -58,7 +58,7 @@ const ChatRoom: React.FC = () => {
                             timestamp={msg.timestamp}
                             text={msg.text}
                             quotedMessage={msg.quotedMessage}
-                            fileId={msg.file}
+                            fileId={msg.fileId}
                             onQuoteMessage={handleQuoteMessage}
                             onScrollToQuoted={() => {
                                 const quoted = msg.quotedMessage;
@@ -74,7 +74,7 @@ const ChatRoom: React.FC = () => {
             </div>
 
             <UserInput
-                onSendMessage={(message: string, fileId: string | null) => handleSendMessage(message, fileId, username)}
+                onSendMessage={(message: string, fileId: string | null) => handleSendMessage(message, fileId, username)} // передаем username
                 quotedMessage={quotedMessage}
                 onCancelQuote={handleCancelQuote}
             />
@@ -84,7 +84,6 @@ const ChatRoom: React.FC = () => {
                     <img src={modalImage} alt="Full View" className={styles.modalImage} />
                 </div>
             )}
-
         </div>
     );
 };
