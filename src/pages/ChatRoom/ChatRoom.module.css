@@ -12,7 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 90vh;
-    width: 90vh;
+    width: 90%;
     max-width: 1000px;
     min-width: 300px;
     margin: 0 auto;
@@ -70,13 +70,49 @@ body {
     background-color: var(--grey);
 }
 
-.sessionId{
+.sessionId {
     margin: 0 10px;
 }
 
-.userInputContainer {
-    position: sticky;
-    bottom: 0;
-    background-color: var(--input-bg);
-    border-top: 1px solid var(--border-color);
+@media (max-width: 600px) {
+    .chatRoom {
+        width: 95%;
+        height: 100vh;
+    }
+
+    .messages {
+        padding: 8px;
+    }
+
+    .modalImage {
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .userInputContainer {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .chatRoom {
+        width: 90%;
+        height: 90vh;
+    }
+
+    .messages {
+        padding: 12px;
+    }
+
+    .modalImage {
+        max-width: 85%;
+        max-height: 85%;
+    }
+}
+
+@media (min-width: 1025px) {
+    .chatRoom {
+        width: 70%;
+        height: 90vh;
+    }
 }

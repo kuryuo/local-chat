@@ -2,21 +2,62 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
-.filePreview {
-    margin-top: 10px;
+@media (max-width: 600px) {
+    .fileInputContainer {
+        padding: 10px;
+    }
+
+    .fileUploadIcon img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .filePreview {
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .fileInputContainer {
+        padding: 12px;
+    }
+
+    .fileUploadIcon img {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .fileInputContainer {
+        padding: 20px;
+    }
+
+    .fileUploadIcon img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .filePreview {
+        margin-top: 10px;
+    }
 }
 
 .fileUploadIcon:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .fileUploadIcon:active {
-    transform: scale(0.9);
+    transform: scale(0.95);
 }
 
 .fileUploadIcon img {
     width: 25px;
     height: 25px;
+    transition: transform 0.3s ease;
 }

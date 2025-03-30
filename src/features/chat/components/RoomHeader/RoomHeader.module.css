@@ -5,7 +5,7 @@
     padding: 10px;
 }
 
-.roomName{
+.roomName {
     font-size: 22px;
 }
 
@@ -18,4 +18,32 @@
 .roomInfo {
     display: flex;
     flex-direction: column;
+}
+
+@media (max-width: 600px) {
+    .roomHeader {
+        padding: 8px;
+    }
+
+    .roomName {
+        font-size: 18px;
+    }
+
+    .roomLeft {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .roomHeader {
+        padding: 12px;
+    }
+
+    .roomName {
+        font-size: 20px;
+    }
+
+    .roomLeft {
+        gap: 9px;
+    }
 }

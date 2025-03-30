@@ -3,3 +3,15 @@
     border-left: 4px solid var(--primary-color);
     padding: 5px 10px;
 }
+
+@media (max-width: 600px) {
+    .quotedMessage {
+        padding: 5px 8px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .quotedMessage {
+        padding: 5px 9px;
+    }
+}

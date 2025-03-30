@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   padding: 20px;
-  border-radius: 0 0 15px 15px ;
+  border-radius: 0 0 15px 15px;
   background-color: var(--input-bg);
   border-top: 1px solid var(--border-color);
   position: relative;
@@ -43,10 +43,10 @@
   outline: none;
 }
 
-
 .input::-webkit-scrollbar {
   display: none;
 }
+
 .input {
   scrollbar-width: none;
 }
@@ -83,4 +83,57 @@
   background-color: white;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .userInput {
+    padding: 15px;
+  }
+
+  .input {
+    font-size: 12px;
+    max-height: 120px;
+  }
+
+  .emojiButton {
+    margin-left: 5px;
+  }
+
+  .buttonGroup {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .userInput {
+    padding: 18px;
+  }
+
+  .input {
+    font-size: 13px;
+    max-height: 130px;
+  }
+
+  .emojiButton {
+    margin-left: 8px;
+  }
+
+  .buttonGroup {
+    gap: 12px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .userInput {
+    padding: 20px;
+  }
+
+  .input {
+    font-size: 14px;
+    max-height: 150px;
+  }
+
+  .buttonGroup {
+    gap: 10px;
+  }
 }

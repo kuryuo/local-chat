@@ -5,24 +5,62 @@
     min-height: 90vh;
     padding: 20px;
     display: flex;
-  }
-  
-  .chatCard {
+}
+
+.chatCard {
     background-color: var(--background-color);
     border-radius: 12px;
     width: 600px;
     padding: 40px;
     box-shadow: var(--shadow);
-  }
-  
-  .header {
+    max-width: 100%;
+}
+
+.header {
     align-items: center;
     display: flex;
     gap: 20px;
-  }
-  
-  .footer {
-      margin-top: 20px;
-      text-align: center;
-  }
-  
+}
+
+.footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .chatCard {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chatCard {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .header {
+        gap: 5px;
+    }
+
+    .footer {
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .chatCard {
+        width: 600px;
+        padding: 40px;
+    }
+}

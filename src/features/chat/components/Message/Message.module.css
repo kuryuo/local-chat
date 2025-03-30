@@ -71,3 +71,61 @@
     right: -25px;
     transform: scaleX(1);
 }
+
+@media (max-width: 600px) {
+    .message {
+        max-width: 90%;
+        padding: 8px;
+    }
+
+    .userName {
+        font-size: 14px;
+    }
+
+    .text {
+        font-size: 12px;
+    }
+
+    .timestamp {
+        font-size: 10px;
+    }
+
+    .quoteIcon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .message {
+        max-width: 80%;
+    }
+
+    .userName {
+        font-size: 15px;
+    }
+
+    .text {
+        font-size: 13px;
+    }
+
+    .timestamp {
+        font-size: 11px;
+    }
+
+    .quoteIcon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .message {
+        max-width: 60%;
+    }
+
+    .quoteIcon {
+        width: 20px;
+        height: 20px;
+    }
+}
