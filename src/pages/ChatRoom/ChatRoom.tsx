@@ -23,7 +23,7 @@ const ChatRoom: React.FC = () => {
 
     useEffect(() => {
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
     }, [messages]);
 
@@ -74,7 +74,7 @@ const ChatRoom: React.FC = () => {
             </div>
 
             <UserInput
-                onSendMessage={(message: string, fileId: string | null) => handleSendMessage(message, fileId, username)} // передаем username
+                onSendMessage={(message: string, fileId: string | null) => handleSendMessage(message, fileId, username)}
                 quotedMessage={quotedMessage}
                 onCancelQuote={handleCancelQuote}
             />
