@@ -1,6 +1,5 @@
 export const ROUTES = {
     LOGIN: "/",
-    CHAT: "/chat",
   };
 
 export const STORAGE_KEYS = {

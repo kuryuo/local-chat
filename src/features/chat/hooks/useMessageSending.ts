@@ -17,5 +17,5 @@ export function useMessageSending(chatname: string) {
         setQuotedMessage(message);
     };
 
-    return { messages, handleSendMessage, quotedMessage, handleQuoteMessage };
+    return { messages,setMessages ,handleSendMessage, quotedMessage, handleQuoteMessage };
 }

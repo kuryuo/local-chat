@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useLocalStorage } from '@/shared/hooks/useLocalStorage';
 import { useMessageSending } from '@/features/chat/hooks/useMessageSending';
 import { useSessionId } from '@/features/auth/hooks/useSessionId';
+import { useParams } from 'react-router-dom';
 import { ROUTES, STORAGE_KEYS } from '@/shared/consts/const';
 import RoomHeader from '@/features/chat/components/RoomHeader/RoomHeader';
 import UserInput from '@/features/chat/components/UserInput/UserInput';
@@ -9,23 +10,46 @@ import Message from '@/features/chat/components/Message/Message';
 import styles from './ChatRoom.module.css';
 
 const ChatRoom: React.FC = () => {
+    const { chatname: routeChatname } = useParams<{ chatname: string }>();
     const [username] = useLocalStorage<string>(STORAGE_KEYS.USERNAME, '');
-    const [chatname] = useLocalStorage<string>(STORAGE_KEYS.CHATNAME, '');
+    const [storedChatname] = useLocalStorage<string>(STORAGE_KEYS.CHATNAME, '');
+
+    const chatname = routeChatname || storedChatname;
+
     const [modalImage, setModalImage] = useState<string | null>(null);
 
-    const { messages, handleSendMessage, quotedMessage, handleQuoteMessage } = useMessageSending(chatname);
+    const {
+        messages,
+        setMessages,
+        handleSendMessage,
+        quotedMessage,
+        handleQuoteMessage
+    } = useMessageSending(chatname);
 
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
     const sessionId = useSessionId();
-
     const messageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     useEffect(() => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }, [messages]);
+
+    useEffect(() => {
+        const syncMessages = (e: StorageEvent) => {
+            if (e.key === STORAGE_KEYS.MESSAGES(chatname) && e.newValue) {
+                try {
+                    const updatedMessages = JSON.parse(e.newValue);
+                    setMessages(updatedMessages);
+                } catch (err) {
+                    console.warn('Ошибка при синхронизации сообщений между вкладками:', err);
+                }
+            }
+        };
+        window.addEventListener('storage', syncMessages);
+        return () => {
+            window.removeEventListener('storage', syncMessages);
+        };
+    }, [chatname, setMessages]);
 
     const handleLeaveRoom = () => {
         localStorage.removeItem(STORAGE_KEYS.USERNAME);
@@ -74,7 +98,9 @@ const ChatRoom: React.FC = () => {
             </div>
 
             <UserInput
-                onSendMessage={(message: string, fileId: string | null) => handleSendMessage(message, fileId, username)}
+                onSendMessage={(message: string, fileId: string | null) =>
+                    handleSendMessage(message, fileId, username)
+                }
                 quotedMessage={quotedMessage}
                 onCancelQuote={handleCancelQuote}
             />
