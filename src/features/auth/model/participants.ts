@@ -1,4 +1,9 @@
-export function saveParticipantToRoom(chatname: string, username: string): void {
+import { getSessionUsername } from './session';
+
+export function saveParticipantToRoom(chatname: string): void {
+    const username = getSessionUsername();
+    if (!username) return;
+
     const key = `participants_${chatname}`;
     const raw = localStorage.getItem(key);
     const participants = raw ? JSON.parse(raw) : [];

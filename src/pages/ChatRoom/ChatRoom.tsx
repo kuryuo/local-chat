@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocalStorage } from '@/shared/hooks/useLocalStorage';
 import { useMessageSending } from '@/features/chat/hooks/useMessageSending';
-import { useSessionId } from '@/features/auth/hooks/useSessionId';
 import { useParams } from 'react-router-dom';
 import { ROUTES, STORAGE_KEYS } from '@/shared/consts/const';
 import RoomHeader from '@/features/chat/components/RoomHeader/RoomHeader';
@@ -9,13 +8,15 @@ import UserInput from '@/features/chat/components/UserInput/UserInput';
 import Message from '@/features/chat/components/Message/Message';
 import styles from './ChatRoom.module.css';
 
+import { getSessionUsername } from '@/features/auth/model/session';
+import { saveParticipantToRoom } from '@/features/auth/model/participants';
+
 const ChatRoom: React.FC = () => {
     const { chatname: routeChatname } = useParams<{ chatname: string }>();
-    const [username] = useLocalStorage<string>(STORAGE_KEYS.USERNAME, '');
     const [storedChatname] = useLocalStorage<string>(STORAGE_KEYS.CHATNAME, '');
 
     const chatname = routeChatname || storedChatname;
-
+    const username = getSessionUsername() || 'Аноним';
     const [modalImage, setModalImage] = useState<string | null>(null);
 
     const {
@@ -27,7 +28,6 @@ const ChatRoom: React.FC = () => {
     } = useMessageSending(chatname);
 
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
-    const sessionId = useSessionId();
     const messageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     useEffect(() => {
@@ -51,8 +51,11 @@ const ChatRoom: React.FC = () => {
         };
     }, [chatname, setMessages]);
 
+    useEffect(() => {
+        saveParticipantToRoom(chatname);
+    }, [chatname]);
+
     const handleLeaveRoom = () => {
-        localStorage.removeItem(STORAGE_KEYS.USERNAME);
         localStorage.removeItem(STORAGE_KEYS.CHATNAME);
         window.location.href = ROUTES.LOGIN;
     };
@@ -64,11 +67,6 @@ const ChatRoom: React.FC = () => {
     return (
         <div className={styles.chatRoom}>
             <RoomHeader chatname={chatname} onLeaveRoom={handleLeaveRoom} />
-
-            <div className={styles.sessionId}>
-                <p>Идентификатор вашей сессии: {sessionId}</p>
-            </div>
-
             <div className={styles.messages}>
                 {messages.map((msg) => (
                     <div

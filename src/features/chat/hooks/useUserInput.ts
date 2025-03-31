@@ -19,6 +19,7 @@ export function useUserInput(props: UserInputProps) {
 
     const [fileId, setFileId] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -40,12 +41,24 @@ export function useUserInput(props: UserInputProps) {
     }, [toggleEmojiPicker]);
 
     const handleSend = () => {
-        if (message.trim() || fileId) {
-            onSendMessage(message, fileId);
-            setMessage("");
-            setFileId(null);
-            setFileName(null);
+        const trimmed = message.trim();
+        const MAX_LENGTH = 1000;
+
+        if (!trimmed && !fileId) {
+            setError('Нельзя отправить пустое сообщение');
+            return;
         }
+
+        if (trimmed.length > MAX_LENGTH) {
+            setError(`Сообщение не должно превышать ${MAX_LENGTH} символов.`);
+            return;
+        }
+
+        setError(null);
+        onSendMessage(trimmed, fileId);
+        setMessage('');
+        setFileId(null);
+        setFileName(null);
     };
 
     const handleCancelQuote = () => {
@@ -84,6 +97,7 @@ export function useUserInput(props: UserInputProps) {
         setFileName,
         textAreaRef,
         fileInputRef,
-        emojiPickerRef
+        emojiPickerRef,
+        error
     };
 }

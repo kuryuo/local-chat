@@ -2,17 +2,18 @@ import { useState } from 'react';
 import { useLocalStorage } from '@/shared/hooks/useLocalStorage';
 import { useNavigate } from 'react-router-dom';
 import { saveParticipantToRoom } from '../model/participants';
+import { saveSessionUsername } from '../model/session';
 
 export function useLoginForm() {
     const [username, setUsername] = useState('');
     const [chatname, setChatname] = useState('');
     const [error, setError] = useState<string | null>(null);
-    const [, setStoredUsername] = useLocalStorage<string>('username', '');
     const [, setStoredChatname] = useLocalStorage<string>('chatname', '');
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         if (!username || !chatname) {
             setError('Поля не должны быть пустыми');
             return;
@@ -35,8 +36,8 @@ export function useLoginForm() {
         }
 
         setError(null);
-        saveParticipantToRoom(chatname, username);
-        setStoredUsername(username);
+        saveSessionUsername(username);
+        saveParticipantToRoom(chatname);
         setStoredChatname(chatname);
 
         navigate(`/chat/${encodeURIComponent(chatname)}`);

@@ -30,7 +30,8 @@ const UserInput: React.FC<UserInputProps> = (props) => {
         setFileName,
         textAreaRef,
         fileInputRef,
-        emojiPickerRef
+        emojiPickerRef,
+        error
     } = useUserInput(props);
 
     return (
@@ -74,6 +75,8 @@ const UserInput: React.FC<UserInputProps> = (props) => {
                         </button>
                     </div>
                 )}
+
+                {error && <div className={styles.error}>{error}</div>}
 
                 <Button label="Отправить" onClick={handleSend} />
             </div>

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styles from './Message.module.css';
 import { ChatMessage, QuotedMessage } from '../../model/message';
 import { formatTime } from '@/shared/utils/utils';
-import { useLocalStorage } from '@/shared/hooks/useLocalStorage';
 import { getFile } from '@/db';
 import arrowIcon from '@/shared/assets/img/arrow.svg';
+import { getSessionUsername } from '@/features/auth/model/session';
 
 interface MessageProps extends ChatMessage {
     onQuoteMessage: (message: QuotedMessage) => void;
@@ -22,7 +22,7 @@ const Message: React.FC<MessageProps> = ({
                                              onScrollToQuoted,
                                              onOpenImage,
                                          }) => {
-    const [currentUser] = useLocalStorage<string>('username', '');
+    const currentUser = getSessionUsername();
     const [fileData, setFileData] = useState<File | null>(null);
 
     const isCurrentUser = currentUser === userName;
