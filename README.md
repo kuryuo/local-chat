@@ -1,61 +1,68 @@
-# Локальный чат
+# Local Chat
 
-Это веб-приложение для создания локального чата, которое работает без сервера и использует только возможности браузера. Все данные хранятся локально и восстанавливаются при перезагрузке страницы или повторном открытии браузера.
+A web application for a local chat that works without a server and uses only browser capabilities. All data is stored locally and restored after a page reload or when the browser is opened again.
 
-## Полезные ссылки
+## Useful links
 
-- [Макет в Figma](https://www.figma.com/design/IlROmRjK8GTSgyiageEpsU/local-chat?node-id=0-1&t=CnF7DmArDMn1YOef-1)  
+- [Design in Figma](https://www.figma.com/design/IlROmRjK8GTSgyiageEpsU/local-chat?node-id=0-1&t=CnF7DmArDMn1YOef-1)
 
-## Начало работы
+## Getting started
 
-### Предварительные требования
+### Prerequisites
 
-Убедитесь, что у вас установлены следующие программы:
+Make sure you have the following installed:
 
-- **Node.js** (версия 16 или выше)
-- **npm** (или **Yarn**, если вы предпочитаете)
+- **Node.js** (version 16 or higher)
+- **npm** (or **Yarn**, if you prefer)
 
-### Установка зависимостей
+### Install dependencies
 
-Клонируйте репозиторий:
+Clone the repository:
 
 ```
 https://github.com/kuryuo/local-chat
 ```
-Перейдите в папку проекта:
+
+Go to the project folder:
 
 ```
 cd local-chat
 ```
-Установите зависимости:
+
+Install dependencies:
+
 ```
 npm install
 ```
-Запустите проект:
+
+Start the project:
+
 ```
 npm run dev
 ```
-Приложение будет доступно по адресу: `http://localhost:5173`.
 
-## Используемые технологии
+The app will be available at: `http://localhost:5173`.
+
+## Tech stack
+
 * React 18
 * TypeScript
 * Vite
 * HTML5, CSS3
-* localStorage / sessionStorage — для хранения данных чата и сессий
+* localStorage / sessionStorage — for storing chat data and sessions
 
-## Основные возможности
+## Main features
 
-- **Чат без сервера**: Все данные (пользователи, сообщения, комнаты) хранятся в браузере. Приложение не зависит от сервера и работает полностью локально.
+- **Serverless chat**: All data (users, messages, rooms) is stored in the browser. The app does not depend on a server and works fully locally.
 
-- **Уникальные идентификаторы сессий**: Каждая вкладка имеет свой уникальный идентификатор сессии, который сохраняется в `sessionStorage`, обеспечивая уникальность для каждой вкладки браузера.
+- **Unique session IDs**: Each tab has its own unique session ID stored in `sessionStorage`, keeping sessions unique per browser tab.
 
-- **Идентификация пользователя и комнаты**: Пользователи могут вводить своё имя и выбирать комнату, в которую они хотят войти, при запуске чата.
+- **User and room identification**: Users can enter their name and choose a room to join when starting the chat.
 
-- **Сохранение и восстановление данных**: Все данные о пользователях, сообщениях и комнатах сохраняются в `localStorage` и восстанавливаются при перезагрузке страницы или закрытии браузера.
+- **Data persistence and restore**: All user, message, and room data is saved in `localStorage` and restored after a page reload or when the browser is closed and opened again.
 
-- **Отображение emoji**: Пользователи могут отправлять сообщения с emoji, используя встроенный пикер или вводя их вручную.
+- **Emoji support**: Users can send messages with emoji using the built-in picker or by typing them manually.
 
-- **Цитирование сообщений**: Возможность цитировать сообщения в чате для контекста или для ответа на конкретные сообщения.
+- **Message quoting**: Messages can be quoted in chat for context or to reply to a specific message.
 
-- **Поддержка медиа-контента**: Поддержка отправки и отображения изображений в сообщениях.
+- **Media support**: Support for sending and displaying images in messages.
